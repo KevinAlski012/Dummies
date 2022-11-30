@@ -16,6 +16,12 @@ MonoBehaviour:
   - dialogueUserName: Story
     dialogueText: Once upon a time, there is a frog
     dialogueDisplayTime: 2
+    dialogueChoices: []
   - dialogueUserName: Story
     dialogueText: It travels around the world
     dialogueDisplayTime: 3
+    dialogueChoices:
+    - dialogueChoice: Yes
+      followOnDialogue: {fileID: 11400000, guid: 92a66f116116a5146bd6e6ddf2be30d7, type: 2}
+    - dialogueChoice: Really?
+      followOnDialogue: {fileID: 11400000, guid: 82b8e8f2f203a0845bc9767e99cdf45b, type: 2}

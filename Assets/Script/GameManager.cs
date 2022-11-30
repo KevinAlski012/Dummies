@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] DialougeInteract introDialougeInteract;
+    [SerializeField] DialogueInteract introDialougeInteract;
     // Start is called before the first frame update
     void Start()
     {

@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37aeb04b0466ad54bb24751668493412, type: 3}
   m_Name: Really
   m_EditorClassIdentifier: 
-  dialogueSegments: []
+  dialogueSegments:
+  - dialogueUserName: Story
+    dialogueText: Yes -_-
+    dialogueDisplayTime: 5
+    dialogueChoices: []
