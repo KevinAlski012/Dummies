@@ -11,6 +11,7 @@ public class DialogueInteract : MonoBehaviour
     [SerializeField] DialogueObject dialogueObject;
     [SerializeField] TMP_Text dialogueUserName;
     [SerializeField] TMP_Text dialogueText;
+    [SerializeField] Button nextButton;
 
     [SerializeField] GameObject dialogueOptionsContainer;
     [SerializeField] Transform dialogueOptionsParent;
@@ -19,23 +20,27 @@ public class DialogueInteract : MonoBehaviour
     bool optionSelected = false;
     private int Count = 0;
     private Queue<string> dialogueSentences;
+    private Queue<string> dialogueName;
     DialogueObject newDialogueObject;
     List<GameObject> spawnedButtons = new List<GameObject> ();
 
     public void StartDialogue()
     {
         dialogueSentences = new Queue<string>();
+        dialogueName = new Queue<string>();
         DisplayDialogue(dialogueObject);
     }
 
     public void StartDialogue(DialogueObject _dialogueObject)
     {
         dialogueSentences = new Queue<string>();
+        dialogueName = new Queue<string>();
         DisplayDialogue(_dialogueObject);
     }
 
     public void EndDialogue()
     {
+        nextButton.onClick.RemoveListener(DisplayNextSentence);
         dialogueOptionsContainer.SetActive(false);
         textCanvas.enabled = false;
         optionSelected = false;
@@ -48,34 +53,22 @@ public class DialogueInteract : MonoBehaviour
     public void OptionSelected(DialogueObject selectedOption) {
         optionSelected = true;
         dialogueObject = selectedOption;
+        EndDialogue();
         StartDialogue();
     }
 
-    IEnumerator TypeSentence(string _dialogueText)
+    IEnumerator TypeSentence(string _dialogueText, Action action, Action action2 )
     {
         dialogueText.text = "";
         foreach (char letter in _dialogueText.ToCharArray())
         {
             Count++;
-            //Debug.Log(Count);
             dialogueText.text += letter;
             yield return new WaitForSeconds(0.1f);
         }
         Count = 0;
-		yield return null;
-    }
-
-    IEnumerator TypeSentence2(string _dialogueText)
-    {
-        dialogueText.text = "";
-        Count = 0;
-        while (Count < _dialogueText.Length)
-        {
-            Count++;
-            //Debug.Log(Count);
-            dialogueText.text = _dialogueText.Substring(0, Count);
-            yield return new WaitForSeconds(0.1f);
-        }
+        action();
+        action2();
 		yield return null;
     }
 
@@ -123,21 +116,29 @@ public class DialogueInteract : MonoBehaviour
 
     public void DisplayDialogue(DialogueObject _dialogueObject)
     {
+        nextButton.onClick.AddListener(DisplayNextSentence);
         dialogueSentences.Clear();
+        dialogueName.Clear();
         newDialogueObject = _dialogueObject;
+        Debug.Log (dialogueSentences.Count);
         Debug.Log ("Start of Dialogue");
 
         textCanvas.enabled = true;
         foreach (var dialogue in _dialogueObject.dialogueSegments)
         {
             dialogueSentences.Enqueue(dialogue.dialogueText);
+            dialogueName.Enqueue(dialogue.dialogueUserName);
         }
+        Debug.Log("Display Text Count : " + dialogueSentences.Count);
 
         DisplayNextSentence();
     }
 
     public void DisplayNextSentence()
     {
+        nextButton.gameObject.SetActive(false);
+        dialogueOptionsContainer.SetActive(false);
+        Debug.Log("Next Text : " + dialogueSentences.Count);
         if (dialogueSentences.Count == 0)
 		{
             newDialogueObject = null;
@@ -146,32 +147,42 @@ public class DialogueInteract : MonoBehaviour
 			return;
 		}
         string sentence = dialogueSentences.Dequeue();
+        string name = dialogueName.Dequeue();
+        dialogueUserName.text = name;
+        Debug.Log("Latest Text : " + sentence);
 		StopAllCoroutines();
-		StartCoroutine(TypeSentence(sentence));
-        DisplayChoices(sentence);
+        Action displayChoiceAction = () => DisplayChoices(sentence);
+		StartCoroutine(TypeSentence(sentence, NextButtonAppear, displayChoiceAction));
+    }
+
+    public void NextButtonAppear()
+    {
+        nextButton.gameObject.SetActive(true);
     }
 
     private void DisplayChoices(String sentence)
     {
+        Debug.Log("Latest newDialogueObject : " + newDialogueObject.dialogueSegments.Count);
         foreach(var dialogue in newDialogueObject.dialogueSegments)
         {
-            Debug.Log("Start : " + dialogue.dialogueText);
             if(sentence == dialogue.dialogueText)
             {
-                dialogueOptionsContainer.SetActive(true);
-                foreach (var option in dialogue.dialogueChoices)
+                if(dialogue.dialogueChoices.Count > 0)
                 {
-                    GameObject newButton = Instantiate (dialogueOptionsButtonPrefab, dialogueOptionsParent);
-                    spawnedButtons.Add (newButton);
-                    newButton.GetComponent<UIDialogueOption>().Setup (this, option.followOnDialogue, option.dialogueChoice);
+                    nextButton.gameObject.SetActive(false);
+                    dialogueOptionsContainer.SetActive(true);
+                    foreach (var option in dialogue.dialogueChoices)
+                    {
+                        GameObject newButton = Instantiate (dialogueOptionsButtonPrefab, dialogueOptionsParent);
+                        spawnedButtons.Add (newButton);
+                        newButton.GetComponent<UIDialogueOption>().Setup (this, option.followOnDialogue, option.dialogueChoice);
+                    }   
                 }
             }
-            else
-                return;
             
             while (!optionSelected) 
             
-            Debug.Log("End : " + dialogue.dialogueText);
+            
             break;
         }
     }

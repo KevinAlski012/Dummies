@@ -14,7 +14,7 @@ public struct DialogueSegment
 {
     public string dialogueUserName;
     public string dialogueText;
-    public float dialogueDisplayTime;
+    //public float dialogueDisplayTime;
     public List<DialogueChoice> dialogueChoices;
 }
 
