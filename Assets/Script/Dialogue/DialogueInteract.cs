@@ -26,6 +26,7 @@ public class DialogueInteract : MonoBehaviour
 
     public void StartDialogue()
     {
+		StopAllCoroutines();
         dialogueSentences = new Queue<string>();
         dialogueName = new Queue<string>();
         DisplayDialogue(dialogueObject);
@@ -33,6 +34,7 @@ public class DialogueInteract : MonoBehaviour
 
     public void StartDialogue(DialogueObject _dialogueObject)
     {
+		StopAllCoroutines();
         dialogueSentences = new Queue<string>();
         dialogueName = new Queue<string>();
         DisplayDialogue(_dialogueObject);

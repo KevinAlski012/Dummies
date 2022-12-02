@@ -12,4 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37aeb04b0466ad54bb24751668493412, type: 3}
   m_Name: DialogueObject
   m_EditorClassIdentifier: 
-  dialogueSegments: []
+  dialogueSegments:
+  - dialogueUserName: Button
+    dialogueText: Hello, my name is Button. Nice to meet you.
+    dialogueChoices: []
+  - dialogueUserName: Button
+    dialogueText: Are you okay?
+    dialogueChoices:
+    - dialogueChoice: Yes
+      followOnDialogue: {fileID: 11400000, guid: 7a6d3ac52e85e334287a1759ff0b01ae, type: 2}
+    - dialogueChoice: No
+      followOnDialogue: {fileID: 11400000, guid: cdba8d75175ea014fb17692c9f62af37, type: 2}

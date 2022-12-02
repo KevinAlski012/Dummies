@@ -15,5 +15,4 @@ MonoBehaviour:
   dialogueSegments:
   - dialogueUserName: Story
     dialogueText: Great, now let's go
-    dialogueDisplayTime: 5
     dialogueChoices: []
