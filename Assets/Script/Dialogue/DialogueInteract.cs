@@ -66,7 +66,7 @@ public class DialogueInteract : MonoBehaviour
         {
             Count++;
             dialogueText.text += letter;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
         }
         Count = 0;
         action();
