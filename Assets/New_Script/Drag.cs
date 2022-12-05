@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Linq;
+using TMPro;
 
 public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     public static Drag onDragLetter;
     [SerializeField] TMPro.TextMeshProUGUI displayLetter;
+    // [SerializeField] TMPro.TMP_Text Text;
+    [SerializeField] Inventory inventory;
+    [SerializeField] string alpabeth;
     
     private bool clue, filled;
     private Vector3 firstPosition;
@@ -14,6 +19,16 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public string Letter { get; private set; }
 
+    private void Awake() {
+        // Debug.Log(alpabeth == null);
+        // Debug.Log(displayLetter.text);
+
+        if (alpabeth == "" || alpabeth == null)
+        {
+            alpabeth = displayLetter.text;
+        }
+    }
+    
     public void Inisialisasi (Transform parent, string letter, bool clue)
     {
         Letter = letter;
@@ -57,7 +72,8 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         // hanya akan jalan pada huruf yang merupkaan bagian dari clue
         if (clue && !filled)
         {
-            if (onDragLetter.Letter == Letter)
+            
+            if (onDragLetter.alpabeth == displayLetter.text)
             {
                 WordManager.Instance.AddPoin();
                 onDragLetter.Equal(transform);

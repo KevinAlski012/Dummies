@@ -29,7 +29,7 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        Screen.SetResolution(540, 960, true);
+        Screen.SetResolution(1920, 1080, true);
         
         if (SoundsManager.Instance.audioSource.mute == true)
         {
