@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37aeb04b0466ad54bb24751668493412, type: 3}
+  m_Name: Intro Stage 1-1
+  m_EditorClassIdentifier: 
+  dialogueSegments:
+  - dialogueUserName: Narator
+    dialogueText: 'Suatu hari, ada gadis kecil yang sangat cantik. Ia memiliki tubuh
+      mungil dan sangat suka dengan imajinasi. Dia sering disapa little dummies. '
+    dialogueChoices: []
+  - dialogueUserName: Narator
+    dialogueText: Dummies kecil sangat suka dengan unicorn dan ingin bertemu dengannya.
+      Apakah kalian bisa membantu dummies?
+    dialogueChoices:
+    - dialogueChoice: AYO KITA BANTU!!
+      followOnDialogue: {fileID: 11400000, guid: 3a9765a266c62004fa6f766a1fd7e80d, type: 2}
+    - dialogueChoice: 'TIDAK, AKU SANGAT SIBUK '
+      followOnDialogue: {fileID: 11400000, guid: 9765492ec476e9d49a6e09f99ada9f3b, type: 2}
